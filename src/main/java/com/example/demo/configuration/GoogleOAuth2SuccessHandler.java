@@ -43,7 +43,7 @@ public void onAuthenticationSuccess(HttpServletRequest request, HttpServletRespo
 		user.setLastName(token.getPrincipal().getAttributes().get("family_name").toString());
 		user.setEmail(email);
 		List<Role> roles = new ArrayList<>();
-		roles.add(roleRepository.findById(2).get());
+		roles.add(roleRepository.findById(1).get());
 		
 		user.setRoles(roles);
 		userRepository.save(user);

@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.demo.service.CustomUserDetailService;
 
@@ -29,10 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception{
 		http
 				.authorizeRequests()
-				.antMatchers("/","shop/**", "/register", "/h2-console/**").permitAll()
-				.antMatchers("/admin/**").hasRole("ADMIN")
-				.anyRequest()
-				.authenticated()
+				.antMatchers("/", "/register", "/h2-console/**").permitAll()
+				.antMatchers("/sw.js").permitAll()
+				.antMatchers("/shop/**").hasAnyAuthority("ADMIN","USER")
+				.antMatchers("/admin/**").hasAuthority("ADMIN")
 				.and()
 				.formLogin()
 				.loginPage("/login")
@@ -75,5 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		public void configure(WebSecurity web) throws Exception {
 			web.ignoring().antMatchers("/resources/**","/static/**","/images/**","/productImages/**","/css/**","/js/**");
 		}
+		
+		
 	
 }
